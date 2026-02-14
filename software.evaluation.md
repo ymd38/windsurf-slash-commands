@@ -20,7 +20,8 @@ Evaluate the targeted directory (e.g., backend, frontend) based on its specific 
 ## 2. Execution Workflow
 1. **Targeted Scan**: Perform a deep-dive scan of the user-specified directory.
 2. **Context Awareness**: Identify best practices specific to the directory's tech stack.
-3. **Artifact Generation**:
+3. **Optional**: If execution logs or test reports (e.g., from Playwright) are provided in the context, correlate them with the code to identify the root cause of any runtime issues.
+4. **Artifact Generation**:
    - Always output the report under the `docs/` directory.
    - Use the filename format: `docs/evaluation.[directory_name].YYYYMMDD.md`.
    - Automatically create the `docs/` folder if it does not exist.
