@@ -96,7 +96,18 @@ npx playwright test
 
 ## 🛠 Setup
 
-### Windsurf
+プロジェクトのルートディレクトリで以下のコマンドを実行すると、対話形式で Windsurf / Claude Code を選択してインストールできます。
+
+```bash
+curl -sL https://raw.githubusercontent.com/ymd38/slash-commands/main/install.sh | bash
+```
+
+### 手動セットアップ
+
+<details>
+<summary>手動でコピーする場合はこちら</summary>
+
+#### Windsurf
 
 使いたい `.md` ファイルをプロジェクトの `.windsurf/workflows/` ディレクトリにコピーします。
 
@@ -112,29 +123,23 @@ your-project/
         └── vulnerability-fix.md
 ```
 
-### Claude Code
+#### Claude Code
 
-各 `.md` ファイルを `.claude/skills/<skill-name>/SKILL.md` としてコピーします。
+各 `.md` ファイルを `.claude/commands/` ディレクトリにコピーします。ファイル名がそのままコマンド名になります。
 
 ```
 your-project/
 └── .claude/
-    └── skills/
-        ├── spec-doc/
-        │   └── SKILL.md
-        ├── test-gen/
-        │   └── SKILL.md
-        ├── test-analytics/
-        │   └── SKILL.md
-        ├── software-evaluation/
-        │   └── SKILL.md
-        ├── vulnerability-scan/
-        │   └── SKILL.md
-        └── vulnerability-fix/
-            └── SKILL.md
+    └── commands/
+        ├── spec-doc.md
+        ├── test-gen.md
+        ├── test-analytics.md
+        ├── software-evaluation.md
+        ├── vulnerability-scan.md
+        └── vulnerability-fix.md
 ```
 
-> 各ファイルには YAML frontmatter（`description`）が含まれており、Windsurf・Claude Code の両方でスラッシュコマンドとして自動認識されます。
+</details>
 
 > **Note**: `/vulnerability-scan` および `/vulnerability-fix` コマンドをフル活用するには、[Semgrep](https://semgrep.dev/) のインストールを推奨します。
 
