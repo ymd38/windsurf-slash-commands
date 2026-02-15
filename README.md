@@ -96,11 +96,60 @@ npx playwright test
 
 ## 🛠 Setup
 
-プロジェクトのルートディレクトリで以下のコマンドを実行すると、対話形式で Windsurf / Claude Code を選択してインストールできます。
+### ワンライナーインストール
+
+プロジェクトのルートディレクトリで以下のコマンドを実行すると、対話形式でインストールできます。
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ymd38/slash-commands/main/install.sh | bash
 ```
+
+インストール時に以下を選択できます：
+
+1. **対応AI**: Windsurf / Claude Code / 両方
+2. **形式**（Claude Code選択時）:
+   - **Commands**: スラッシュコマンド形式（`/spec.doc` 等で呼び出し）
+   - **Agents**: Sub Agent形式（チームメイトとして呼び出し可能）
+
+### 使い方
+
+#### スラッシュコマンドとして使う
+
+Commands形式でインストールした場合、通常のスラッシュコマンドとして使えます：
+
+```bash
+# Windsurf Cascade または Claude Code CLI で実行
+/spec.doc src/components
+/test.gen src/pages/login.tsx
+/software.evaluation src/backend
+```
+
+#### Sub Agent（チームメイト）として使う（Claude Code）
+
+Agents形式でインストールした場合、チーム機能で他のエージェントから呼び出せます：
+
+```javascript
+// チーム作成
+TeamCreate({
+  team_name: "quality-team",
+  description: "品質保証サイクル実行チーム"
+});
+
+// 仕様書生成をspec-docエージェントに依頼
+Task({
+  subagent_type: "general-purpose",
+  prompt: `
+Skill: spec-doc を実行してください。
+引数: src/auth/
+
+仕様書を生成し、docs/spec.auth.md に出力してください。
+  `,
+  team_name: "quality-team",
+  name: "spec-generator"
+});
+```
+
+**注意**: 現在のClaude Code Skillsは `subagent_type` で直接指定できないため、`general-purpose` エージェント内でSkillツールを呼び出す形式を使用します。
 
 ### 手動セットアップ
 
@@ -109,7 +158,7 @@ curl -sL https://raw.githubusercontent.com/ymd38/slash-commands/main/install.sh 
 
 #### Windsurf
 
-使いたい `.md` ファイルをプロジェクトの `.windsurf/workflows/` ディレクトリにコピーします。
+`commands/` ディレクトリ内の `.md` ファイルをプロジェクトの `.windsurf/workflows/` ディレクトリにコピーします。
 
 ```
 your-project/
@@ -123,9 +172,9 @@ your-project/
         └── vulnerability-fix.md
 ```
 
-#### Claude Code
+#### Claude Code (Commands形式)
 
-各 `.md` ファイルを `.claude/commands/` ディレクトリにコピーします。ファイル名がそのままコマンド名になります。
+`commands/` ディレクトリ内の `.md` ファイルを `.claude/commands/` ディレクトリにコピーします。
 
 ```
 your-project/
@@ -137,6 +186,28 @@ your-project/
         ├── software-evaluation.md
         ├── vulnerability-scan.md
         └── vulnerability-fix.md
+```
+
+#### Claude Code (Agents形式)
+
+`commands/` ディレクトリ内の各 `.md` ファイルを `.claude/agents/[skill-name]/SKILL.md` としてコピーします。
+
+```
+your-project/
+└── .claude/
+    └── agents/
+        ├── spec-doc/
+        │   └── SKILL.md
+        ├── test-gen/
+        │   └── SKILL.md
+        ├── test-analytics/
+        │   └── SKILL.md
+        ├── software-evaluation/
+        │   └── SKILL.md
+        ├── vulnerability-scan/
+        │   └── SKILL.md
+        └── vulnerability-fix/
+            └── SKILL.md
 ```
 
 </details>

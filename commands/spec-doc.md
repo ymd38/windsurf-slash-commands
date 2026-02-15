@@ -1,5 +1,8 @@
 ---
 description: Generate or sync a "Living Specification" (docs/spec.md) from source code to eliminate doc-code drift. Use when creating, updating, or reviewing architecture documentation for a directory.
+name: spec-doc
+allowed-tools: Read, Write, Glob, Grep, Bash
+context: default
 ---
 
 # Role: Senior Technical Writer & System Architect (Living Spec Expert)

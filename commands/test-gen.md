@@ -1,5 +1,8 @@
 ---
 description: Auto-generate robust Playwright E2E test scripts from source code or UI specs. Use when you need to create end-to-end tests for frontend components or backend APIs.
+name: test-gen
+allowed-tools: Read, Write, Glob, Grep, Bash
+context: default
 ---
 
 # Role: Senior QA Automation Engineer (Playwright Specialist)

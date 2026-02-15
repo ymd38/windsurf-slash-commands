@@ -1,5 +1,8 @@
 ---
 description: Evaluate code quality across five pillars (Architecture, Reliability, Observability, Security, DX) with a 1-10 scorecard. Use when you want a comprehensive quality review of a directory or module.
+name: software-evaluation
+allowed-tools: Read, Glob, Grep
+context: fork
 ---
 
 # Role: World-Class CTO & Principal Architect (Master of Software Excellence)

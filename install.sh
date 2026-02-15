@@ -60,24 +60,66 @@ install_windsurf() {
   mkdir -p "${dest}"
 
   for skill in "${SKILLS[@]}"; do
-    local url="${REPO_RAW}/${skill}.md"
+    local url="${REPO_RAW}/commands/${skill}.md"
     local file="${dest}/${skill}.md"
     curl -sfL "${url}" -o "${file}"
     ok "  ${file}"
   done
 }
 
-# ── Install for Claude Code ──────────────────
-install_claude() {
+# ── Format selection for Claude Code ────────
+select_format() {
+  printf "\n"
+  printf "${CYAN}Select installation format:${RESET}\n"
+  printf "  1) Commands (.claude/commands/) - スラッシュコマンド用\n"
+  printf "  2) Agents (.claude/agents/) - Sub Agent用\n"
+  printf "\n"
+  printf "Enter choice [1-2]: "
+  read -r format_choice < /dev/tty
+
+  case "${format_choice}" in
+    1) FORMAT="commands" ;;
+    2) FORMAT="agents" ;;
+    *)
+      error "Invalid choice: ${format_choice}"
+      exit 1
+      ;;
+  esac
+}
+
+# ── Install for Claude Code (Commands) ──────
+install_claude_commands() {
   local dest=".claude/commands"
-  info "Installing to ${dest}/ ..."
+  info "Installing Claude Code Commands to ${dest}/ ..."
   mkdir -p "${dest}"
 
   for skill in "${SKILLS[@]}"; do
-    local url="${REPO_RAW}/${skill}.md"
+    local url="${REPO_RAW}/commands/${skill}.md"
     local file="${dest}/${skill}.md"
     curl -sfL "${url}" -o "${file}"
     ok "  ${file}"
+  done
+}
+
+# ── Install for Claude Code (Agents) ────────
+install_claude_agents() {
+  local dest=".claude/agents"
+  info "Installing Claude Code Agents to ${dest}/ ..."
+  mkdir -p "${dest}"
+
+  for skill in "${SKILLS[@]}"; do
+    local agent_dir="${dest}/${skill}"
+    mkdir -p "${agent_dir}"
+
+    local url="${REPO_RAW}/commands/${skill}.md"
+    local file="${agent_dir}/SKILL.md"
+    curl -sfL "${url}" -o "${file}"
+
+    if [[ -f "${file}" ]]; then
+      ok "  ${agent_dir}/SKILL.md"
+    else
+      error "Failed to download ${skill}.md"
+    fi
   done
 }
 
@@ -90,17 +132,30 @@ main() {
 
   select_agent
 
+  # Claude Code形式選択（Claude Codeが選択された場合のみ）
+  if [[ "${AGENT}" == "claude" || "${AGENT}" == "both" ]]; then
+    select_format
+  fi
+
   case "${AGENT}" in
     windsurf)
       install_windsurf
       ;;
     claude)
-      install_claude
+      if [[ "${FORMAT}" == "commands" ]]; then
+        install_claude_commands
+      else
+        install_claude_agents
+      fi
       ;;
     both)
       install_windsurf
       printf "\n"
-      install_claude
+      if [[ "${FORMAT}" == "commands" ]]; then
+        install_claude_commands
+      else
+        install_claude_agents
+      fi
       ;;
   esac
 

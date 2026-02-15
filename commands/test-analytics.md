@@ -1,5 +1,8 @@
 ---
 description: Analyze test execution results to identify root causes, flaky tests, and coverage gaps. Use when tests fail or you need a quality assessment of your test suite.
+name: test-analytics
+allowed-tools: Read, Glob, Grep
+context: default
 ---
 
 # Role: Elite SDET & Test Automation Expert
