@@ -1,3 +1,5 @@
+*[skills](https://github.com/ymd38/dev-skills)に移植しました*
+
 # AI Agent Slash Commands
 
 AI コーディングエージェント（[Windsurf](https://codeium.com/windsurf) / [Claude Code](https://docs.anthropic.com/en/docs/claude-code)）を **シニアエンジニアリングパートナー** に変えるスラッシュコマンド集です。  
